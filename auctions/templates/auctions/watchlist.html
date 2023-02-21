@@ -1,0 +1,30 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+    {% if message %}
+    <div class="message">{{ message }}</div>
+    {% endif %}
+
+    <h2>Liked items</h2>
+    {% for listing in w_listings %}
+    <div onclick='location.href="{% url 'list_item' id=listing.watched.id %}";' style="cursor: pointer;">
+        <form action="{% url 'list_item' id=listing.watched.id %}" method="get">
+            <div class="card">
+                {% if listing.watched.photo %}
+                    <span class="image"><img src= {{listing.watched.photo}} alt="listing.watched.title" style="width: 90%; padding: 4px;"></span>
+                {% endif %}
+                <span class="details_container">
+                    <div class="details">
+                        <div><h3>{{ listing.watched.title }}</h3></div>
+                        <div>Description: {{ listing.watched.description }} </div>
+                        <div>The bidding starts at {{ listing.watched.starting_bid }} $</div>
+                        <div>Category: {{ listing.watched.category.category_title }}</div> 
+                        <div>Posted by {{listing.watched.author}} </div>
+                    </div>
+                </span>
+            </div>          
+        </form>
+    </div>  
+    {% endfor%}
+    
+{% endblock %}

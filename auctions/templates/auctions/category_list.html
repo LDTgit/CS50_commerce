@@ -1,0 +1,32 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+    {% if message %}
+    <div class="message">{{ message }}</div>
+    {% endif %}
+
+    <h2>Category: {{ name }} </h2>
+    
+    {% for listing in listings %}
+    <div onclick='location.href="{% url 'list_item' id=listing.id %}";' style="cursor: pointer;">
+        <form action="{% url 'list_item' id=listing.id %}" method="get">
+            <div class="card">
+                {% if listing.photo %}
+                    <span class="image"><img src= {{listing.photo}} alt="listing.title" style="width: 90%; padding: 4px;"></span>
+                {% endif %}
+                <span class="details_container">
+                    <div class="details">
+                        <div><strong>{{ listing.title }}</strong></div>
+                        <div>Description: {{ listing.description }} </div>
+                        <div>The bidding starts at {{ listing.starting_bid }} $</div>
+                        <div>Category: {{ listing.category.category_title }}</div> 
+                        <div>Posted by {{listing.author}} </div>
+                    </div>
+                </span>
+            </div>
+             
+        </form>
+    </div>
+    {% endfor%}
+
+{% endblock %}

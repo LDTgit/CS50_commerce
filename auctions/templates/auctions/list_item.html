@@ -1,0 +1,99 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+
+    <div class="card" style="flex-direction: column;">
+        
+        <h4>Listing: {{ listing.title }}</h4>
+        {% if user.is_authenticated and user != listing.author %}
+        <div>
+            <form action="{% url 'watchlist' %}" method="post">
+                {% csrf_token %}
+                <input class="form-control" type="text" name="id" value={{listing.id}} hidden>
+                {% if liked == False %}
+                <input class="btn btn-primary" type="submit" name ="add" value="Add to watchlist">
+                {% else %}
+                <input class="btn btn-primary" type="submit" name="remove" value="Remove from watchlist">
+                {% endif %}
+            </form>
+        </div>
+        
+        {% endif %}
+        <br>
+        {% if current_price >= listing.starting_bid %}
+            <h3>$ {{current_price}}</h3>
+        {% else %}
+            <h3>$ {{ listing.starting_bid }}</h3>
+        {% endif %}
+        <div>
+            {% if listing.photo %}
+            <div><img src= {{listing.photo}} alt="listing.title" style="height: 20rem;"></div>
+            {% endif %}
+        </div>
+
+        <div class="description-text">{{ listing.description }}</div>
+
+        <br>
+        <div>Details:</div>
+        <ul>
+            {% if listing.category %}
+            <li>Category: {{ listing.category.category_title }}</li>
+            {% endif %}
+            <li>Posted by <strong>{{listing.author}}</strong></li>
+        </ul>
+
+        {% if user.is_authenticated and user == listing.author %}
+            <div style="display: inline-flex; ">
+                <a style="margin: 8px;" href="{% url 'edit_item' id=listing.id %}" class="btn btn-primary">Edit List Item</a>
+                <a style="margin: 8px;" href="{% url 'delete_item' id=listing.id %}" class="btn btn-primary, btn-delete">Delete List Item</a>
+                {% if listing.current_price %}
+                    <div style="margin: 8px;">
+                        <form action="{% url 'closed_item' id=listing.id %}" method="post">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-primary btn-accept">Accept offer made by {{current_price_user}} for {{current_price}} $ </button>
+                        </form>
+                    </div>
+                {% endif %}
+            </div>
+        {% endif %}
+
+        <br>
+        <div><strong>Comments:</strong></div>
+        {% for listing_comment in listing_comments %}
+            <div> <strong>{{ listing_comment.user_comm }}</strong> said: <em>{{listing_comment.comment}}</em></div>
+        {% endfor %}
+        
+        {% if user.is_authenticated and user != listing.author %}
+            <br>
+            <form action="{% url 'comment' id=listing.id %}" method="post">
+                {% csrf_token %}
+                <div>Add new comment: </div>
+                <div class="form-group">
+                    <input class="form-control" type="text" name="received_comment" placeholder="Type your comment">
+                </div>
+                <input class="btn btn-primary" type="submit" value="Publish comment">
+            </form>
+            <br>
+            <form action="{% url 'bid' id=listing.id %}" method="post">
+                {% csrf_token %}
+                <div>Your bid: </div>
+                <div class="form-group">
+                    <input name="bidding" value="{{ listing.starting_bid }}"></input>
+                </div>
+                <input class="btn btn-primary" type="submit" value="Send your bid">
+            </form>
+            <br>
+            
+        {% elif user == listing.author %}
+        <br>
+            <div>The following bids were made for this item:</div>
+            {% for bid in bids%}
+                <div> {{ bid.user_id }} bid {{ bid.bid }} $</div>
+            {% endfor %}
+        {% else %}
+            <div>Sign in to send your bid.</div>
+            <a href="{% url 'login' %}">Log In here.</a>
+        {% endif %}
+    </div>
+
+{% endblock %}

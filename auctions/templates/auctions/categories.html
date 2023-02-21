@@ -1,0 +1,16 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+    {% if message %}
+        <div class="message">{{ message }}</div>
+    {% endif %}
+
+    <h2>Categories:</h2>
+        <div style="display: block;">
+            {% for item in categories %}
+            <a href="{% url 'category_list' id=item.id %}" class="btn btn-primary" style="color: white; display: flex; flex-direction: column; width: fit-content; margin: 8px;">{{ item.category_title }}</a>
+            {% endfor %} 
+            <a href="{% url 'category_list' id='none' %}" class="btn btn-primary" style="color: white; display: flex; flex-direction: column; width: fit-content; margin: 8px;">Items without category</a>
+        </div>
+  
+{% endblock %}

@@ -1,0 +1,30 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+    {% if message %}
+        <div class="message">{{ message }}</div>
+    {% endif %}
+
+    <div class="card" style="flex-direction: column;">
+        <div><strong>{{ listing.listing_closed.title }}</strong></div>
+        <div>Description: {{ listing.listing_closed.description }} </div>
+        <div>Winning bid: {{listing.listing_closed.current_price}} $</div>
+        <div>Bidding started at {{ listing.listing_closed.starting_bid }} $</div>
+        <div>{% if listing.listing_closed.photo %}
+            <div><img src= {{listing.listing_closed.photo}} alt="listing.listing_closed.title" style="height: 20rem;"></div>
+        {% endif %}
+        </div>
+        <div>Category: {{ listing.listing_closed.category.category_title }}</div> 
+        <div>Won by {{listing.winner}} </div>
+        <div>Posted at {{ listing.listing_closed.post_date }} </div>
+    </div>
+  
+    <div class="card" style="flex-direction: column;">
+        <div>Comments:</div>
+        {% for listing_comment in listing_comments %}
+        <div> {{ listing_comment.user_comm }} said:</div>
+        <div> {{listing_comment.comment}} </div>
+        {% endfor %}
+    </div>
+
+{% endblock %}
