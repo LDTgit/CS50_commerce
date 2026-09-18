@@ -104,7 +104,7 @@ If the owner of the listing clicks on that listing, they can also:
 - edit the list item
 - delete the list item
 - accept the biggest offer
-<img width="500" alt="image" src="https://github.com/LDTgit/CS50_commerce/blob/main/owner.png" />
+<img width="500" alt="image" src="https://github.com/LDTgit/CS50_commerce/blob/main/owner_listing.png" />
 
 ### 5. Bidding Rules
 The bidding logic enforces the following conditions:
