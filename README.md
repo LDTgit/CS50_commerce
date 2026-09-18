@@ -126,7 +126,8 @@ Authenticated users can leave comments on any listing. All comments are saved an
 
 ### 8. Watchlist
 Signed-in users can access a dedicated Watchlist page to review all listings they saved. This list acts as a personal bookmark collection for desirable auctions.
-<img width="500" alt="image" src="https://github.com/LDTgit/CS50_commerce/blob/main/watchlist.png" />
+
+<img width="500" alt="image" src="https://github.com/LDTgit/CS50_commerce/blob/main/owner.png" />
 
 ### 9. Categories
 The application includes a category discovery flow:
